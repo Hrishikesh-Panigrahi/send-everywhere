@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'base.apps.BaseConfig',
+
+    'django_crontab'
 ]
 
 MIDDLEWARE = [
@@ -133,3 +135,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+CRONJOBS = [
+    ('*/10 * * * *', 'base/task/removeFile'),
+    # Add more cron jobs as needed
+]

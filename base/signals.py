@@ -1,3 +1,24 @@
-# create a 6 digit string
+from . import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save
 
-# send the 6 digit string to fontend
+## importing modules
+import random
+import math
+
+def generateCode():
+    digits = [i for i in range(0, 10)]
+    random_str = ""
+
+    for i in range(6):
+        index = math.floor(random.random() * 10)
+        random_str += str(digits[index])
+
+
+@receiver(post_save, sender=models.File)
+def createRequestCode(sender, instance, created, **kwargs):
+    if created:
+        instance.request_code = generateCode()
+        instance.save()
+        print("Request code created")
+

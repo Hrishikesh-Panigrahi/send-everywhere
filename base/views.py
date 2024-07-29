@@ -15,7 +15,7 @@ def index(request):
     if request.method == "POST":
         random_uuid = uuid.uuid4()
         file = request.FILES["file"]
-
+        
         # extract extenion of the file
         split_tup = os.path.splitext(file.name)
         
@@ -39,6 +39,12 @@ def index(request):
         
         fileobject = File(uuid= random_uuid, file = file, name = file_name, path = path)
         fileobject.save()
+    
+    elif request.method == "GET":
+        request_code = request.GET.get("request_code")
+
+        fileobject = File.objects.get(request_code = request_code)
+        print(fileobject)
 
     else:
         return render(request, "index.html")

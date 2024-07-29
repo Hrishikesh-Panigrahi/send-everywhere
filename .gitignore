@@ -89,4 +89,9 @@ local_settings.py
 db.sqlite3
 media
 
+
 venv
+./__pycache__
+/__pycache__
+/migrations
+./migrations
