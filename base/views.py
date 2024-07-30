@@ -3,16 +3,24 @@ import os
 import uuid
 from sendEverywhere import settings
 from .models import File
+from django.http import FileResponse
+from . import task
+
 
 def create_folder(folder_path):
   """Creates a folder if it doesn't exist."""
   if not os.path.exists(folder_path):
     os.mkdir(folder_path)
 
+def download(request_code):
+    obj = File.objects.get(request_code = request_code)
+    filename = obj.model_attribute_name.path
+    response = FileResponse(open(filename, 'rb'))
+    return response
 
 # Create your views here.
 def index(request):
-    if request.method == "POST":
+    if request.method == "POST" and request.FILES["file"]:
         random_uuid = uuid.uuid4()
         file = request.FILES["file"]
         
@@ -39,12 +47,16 @@ def index(request):
         
         fileobject = File(uuid= random_uuid, file = file, name = file_name, path = path)
         fileobject.save()
+        task.removeFile.apply_async_on_commit()
     
-    elif request.method == "GET":
+    elif request.method == "GET" and request.GET.get("request_code"):
         request_code = request.GET.get("request_code")
 
-        fileobject = File.objects.get(request_code = request_code)
-        print(fileobject)
+        obj = File.objects.get(request_code = request_code)
+        filename = obj.path
+        response = FileResponse(open(filename, 'rb'))
+        print(obj)
+        return response
 
     else:
         return render(request, "index.html")

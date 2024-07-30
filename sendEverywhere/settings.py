@@ -18,7 +18,7 @@ load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
+BROKER_URL = 'amqp://localhost//'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -43,7 +43,8 @@ INSTALLED_APPS = [
 
     'base.apps.BaseConfig',
 
-    'django_crontab'
+    'django_celery_beat',
+    
 ]
 
 MIDDLEWARE = [
@@ -136,7 +137,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-CRONJOBS = [
-    ('*/10 * * * *', 'base/task/removeFile'),
-    # Add more cron jobs as needed
-]
+CELERY_ENABLED = True
+CELERY_BROKER_URL = "amqp://localhost:5672"
+CELERY_RESULT_BACKEND = "amqp://localhost:5672"

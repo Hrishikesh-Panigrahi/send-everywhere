@@ -1,3 +1,4 @@
+import time
 from . import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
@@ -13,7 +14,7 @@ def generateCode():
     for i in range(6):
         index = math.floor(random.random() * 10)
         random_str += str(digits[index])
-
+    return random_str
 
 @receiver(post_save, sender=models.File)
 def createRequestCode(sender, instance, created, **kwargs):
@@ -21,4 +22,3 @@ def createRequestCode(sender, instance, created, **kwargs):
         instance.request_code = generateCode()
         instance.save()
         print("Request code created")
-

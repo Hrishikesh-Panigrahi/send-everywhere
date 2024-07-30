@@ -8,6 +8,18 @@
 <body>
     <p>This is an example paragraph. Anything in the <strong>body</strong> tag will appear on the page, just like this
         <strong>p</strong> tag and its contents.</p>
+
+        <!-- file upload form -->
+        <form action="/" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file">
+            <button type="submit"> submit</button>
+        </form>
+
+        <form action="/" method="GET">
+            <input type="text" name="request_code" placeholder="Enter your code">
+           
+            <button type="submit"> submit</button>
+        </form>
 </body>
 
 </html>
