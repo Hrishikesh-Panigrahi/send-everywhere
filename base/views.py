@@ -8,17 +8,17 @@ from . import task
 
 
 def create_folder(folder_path):
-  """Creates a folder if it doesn't exist."""
-  if not os.path.exists(folder_path):
-    os.mkdir(folder_path)
+    """Creates a folder if it doesn't exist."""
+    if not os.path.exists(folder_path):
+        os.mkdir(folder_path)
+
 
 def download(request_code):
-    obj = File.objects.get(request_code = request_code)
+    obj = File.objects.get(request_code=request_code)
     filename = obj.model_attribute_name.path
     response = FileResponse(open(filename, 'rb'))
     return response
 
-# Create your views here.
 def index(request):
     if request.method == "POST" and request.FILES["file"]:
         random_uuid = uuid.uuid4()
@@ -26,11 +26,9 @@ def index(request):
         
         # extract extenion of the file
         split_tup = os.path.splitext(file.name)
-        
-        # extract the file name and extension
         file_name = split_tup[0]
         file_extension = split_tup[1]
-        
+
         # then combine the uuid and the extension
         filename = f"{random_uuid}{file_extension}"
 
@@ -44,19 +42,31 @@ def index(request):
             for chunk in file.chunks():
                 f.write(chunk)
         path = os.path.join(settings.MEDIA_ROOT, "file/", filename)
-        
-        fileobject = File(uuid= random_uuid, file = file, name = file_name, path = path)
+
+        fileobject = File(uuid=random_uuid, file=file,
+                          name=file_name, path=path)
         fileobject.save()
-        task.removeFile.apply_async_on_commit()
-    
+        context = {
+            "request_code": fileobject.request_code
+        }
+        return render(request, "index.html", context)
+        # task.removeFile.apply_async_on_commit()
+
     elif request.method == "GET" and request.GET.get("request_code"):
         request_code = request.GET.get("request_code")
-
-        obj = File.objects.get(request_code = request_code)
-        filename = obj.path
-        response = FileResponse(open(filename, 'rb'))
-        print(obj)
-        return response
-
+        try:
+            obj = File.objects.get(request_code=request_code)
+            filename = obj.path
+            response = FileResponse(
+                open(filename, 'rb'), as_attachment=True, filename=obj.file.name)
+            context = {
+                "codeSubmitted": obj
+            }
+            return response
+        except:
+            context = {
+                "error": "Request code doesn't exist"
+            }
+            return render(request, "index.html", context)
     else:
         return render(request, "index.html")
