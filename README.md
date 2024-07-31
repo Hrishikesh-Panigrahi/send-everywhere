@@ -43,21 +43,24 @@ Alternatively, you can run Send Everywhere using Docker for easy deployment:
 docker pull hrishikeshpanigrahi025/send-everywhere
 ```
 
-1. **Run Docker Container:**
+2. **Run Docker Container:**
 ```bash
 docker run -d -p 8000:8000 hrishikeshpanigrahi025/send-everywhere
 ```
 
-1. **Check Docker Container Status:**
+3. **Check Docker Container Status:**
 ```bash
 docker ps
 ```
 
-1. **Access Container Files (Optional):**
+4. **Access Container Files (Optional):**
 ```bash
 docker exec -it <container_name> sh
 ```
 - Use this command to explore files or debug inside the running container.
+
+5. **Access the application:**
+Open your web browser and go to `http://localhost:8000/` to use Send Everywhere.
 
 ## Usage
 
