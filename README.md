@@ -27,12 +27,37 @@ python manage.py migrate
 ```
 
 4. **Start the development server:**
-```
+```bash
 python manage.py runserver
 ```
 
 5. **Access the application:**
 Open your web browser and go to `http://localhost:8000/` to use Send Everywhere.
+
+## Docker Setup Instructions
+
+Alternatively, you can run Send Everywhere using Docker for easy deployment:
+
+1. **Pull Docker Image:**
+```bash
+docker pull hrishikeshpanigrahi025/send-everywhere
+```
+
+1. **Run Docker Container:**
+```bash
+docker run -d -p 8000:8000 hrishikeshpanigrahi025/send-everywhere
+```
+
+1. **Check Docker Container Status:**
+```bash
+docker ps
+```
+
+1. **Access Container Files (Optional):**
+```bash
+docker exec -it <container_name> sh
+```
+- Use this command to explore files or debug inside the running container.
 
 ## Usage
 
