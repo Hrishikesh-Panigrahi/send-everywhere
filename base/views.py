@@ -19,11 +19,12 @@ def download(request_code):
     response = FileResponse(open(filename, 'rb'))
     return response
 
+
 def index(request):
     if request.method == "POST" and request.FILES["file"]:
         random_uuid = uuid.uuid4()
         file = request.FILES["file"]
-        
+
         # extract extenion of the file
         split_tup = os.path.splitext(file.name)
         file_name = split_tup[0]
@@ -46,9 +47,18 @@ def index(request):
         fileobject = File(uuid=random_uuid, file=file,
                           name=file_name, path=path)
         fileobject.save()
-        context = {
-            "request_code": fileobject.request_code
-        }
+        context = {}
+
+        if request.POST.get("request_code"):
+            context.update({
+                "request_code": fileobject.request_code
+            })
+
+        elif request.POST.get("request_link"):
+            context.update({
+                "Link": "somelink"
+            })
+            
         return render(request, "index.html", context)
         # task.removeFile.apply_async_on_commit()
 
@@ -71,11 +81,14 @@ def index(request):
     else:
         return render(request, "index.html")
 
+
 def about(request):
     return render(request, "about.html")
 
+
 def services(request):
     return render(request, "services.html")
+
 
 def contact(request):
     return render(request, "contact.html")

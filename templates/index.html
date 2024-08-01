@@ -6,31 +6,20 @@
     <h1 class="text-4xl font-bold text-gray-800">Welcome to My Website!</h1>
     <p class="text-lg text-gray-600 mt-2">Please upload your file or enter your code below.</p>
 </div>
-{% if codeSubmitted %}
-<div class="mt-8 flex flex-col items-center">
-    <div class="text-lg font-bold text-gray-700">Complete</div>
-    <div class="flex items-center mt-4">
-        <div class="rounded-full bg-gray-300 p-2">
-            <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2l4-4"></path>
-            </svg>
-        </div>
-        <div class="ml-4">
-            <div class="font-bold text-gray-800">Success</div>
-            <div class="text-sm text-gray-500">Request code accepted</div>
-        </div>
-    </div>
-    <div
-        class="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-        OK
-    </div>
-</div>
-{% else %}
+
 <div class="container mx-auto mt-8 flex justify-center">
     <div class="w-full max-w-md">
         <div class="bg-white p-6 rounded-lg shadow-md mb-8 flex flex-col items-center justify-center h-48">
-            {% if request_code %}
+            {% if Link %}
+            <div class="flex space-x-2">
+                <!-- The text field -->
+                <input type="text" value="{{ link }}" id="Link">
+
+                <!-- The button used to copy the text -->
+                <button onclick="copyToClipboard()">Copy text</button>
+
+            </div>
+            {% elif request_code %}
             <div class="flex space-x-2">
                 {% for char in request_code %}
                 <div
@@ -42,15 +31,33 @@
             {% else %}
             <form action="/" method="POST" enctype="multipart/form-data"
                 class="flex flex-col items-center justify-center h-full w-full">
-                <label for="file" class="cursor-pointer flex flex-col items-center justify-center">
-                    <span class="text-lg font-bold text-gray-700">Send</span>
-                    <div class="text-5xl text-red-500 mt-4">+</div>
-                    <input type="file" name="file" id="file" class="hidden">
-                </label>
-                <button type="submit"
-                    class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                    Submit
-                </button>
+                <div id="upload-section" class="flex flex-col items-center justify-center text-center">
+                    <label for="file" class="cursor-pointer flex flex-col items-center justify-center">
+                        <span class="text-lg font-bold text-gray-700">Send</span>
+                        <div class="text-9xl text-red-500 flex items-center h-23">+</div>
+                        <input type="file" name="file" id="file" class="hidden">
+                    </label>
+                </div>
+
+                <div id="file-info-section" class="hidden flex flex-col items-center text-center">
+                    <span id="file-name" class="text-lg font-bold text-gray-700 mb-4"></span>
+                    <div class="flex gap-4">
+                        <button type="submit" name="request_code"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Get Code
+                        </button>
+                        
+                            <button type="submit" name="request_link"
+                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                                Get Link
+                            </button>
+                        
+                        <a href="/download"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Email
+                        </a>
+                    </div>
+                </div>
             </form>
             {% endif %}
         </div>
@@ -73,7 +80,37 @@
         </div>
     </div>
 </div>
-{% endif %}
+<script>
+    document.getElementById('file').addEventListener('change', function () {
+        const fileNameElement = document.getElementById('file-name');
+        const uploadSection = document.getElementById('upload-section');
+        const fileInfoSection = document.getElementById('file-info-section');
+        if (this.files.length > 0) {
+            const fileName = this.files[0].name;
+            fileNameElement.textContent = fileName;
+            uploadSection.classList.add('hidden');
+            fileInfoSection.classList.remove('hidden');
+        } else {
+            uploadSection.classList.remove('hidden');
+            fileInfoSection.classList.add('hidden');
+        }
+    });
 
+    function copyToClipboard() {
+        // Get the text field
+        var copyText = document.getElementById("Link");
+
+        // Select the text field
+        copyText.select();
+        copyText.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the text field
+        navigator.clipboard.writeText(copyText.value);
+
+        // Alert the copied text
+        alert("Copied the text: " + copyText.value);
+    }
+
+</script>
 
 {% endblock %}
