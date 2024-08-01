@@ -1,11 +1,12 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 import os
 import uuid
 from sendEverywhere import settings
 from .models import File
 from django.http import FileResponse
 from . import task
-
+from django.contrib.auth import authenticate
+from django.contrib.auth.models import User
 
 def create_folder(folder_path):
     """Creates a folder if it doesn't exist."""
@@ -96,7 +97,25 @@ def contact(request):
     return render(request, "contact.html")
 
 def login(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            return redirect("index")
+        else:
+            return redirect("register")
     return render(request, "login.html")
 
 def register(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
+        firstName = request.POST.get("firstName")
+        # lastName = request.POST.get("lastName")
+        email = request.POST.get("email")
+
+        user = User.objects.create_user(email=email, username=username, password=password, first_name = firstName)
+        user.save()
+        return redirect("index")
     return render(request, "register.html")
