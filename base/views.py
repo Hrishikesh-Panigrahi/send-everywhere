@@ -49,14 +49,16 @@ def index(request):
         fileobject.save()
         context = {}
 
-        if request.POST.get("request_code"):
+        print("request_code" in request.POST)
+
+        if "request_code" in request.POST:
             context.update({
                 "request_code": fileobject.request_code
             })
 
-        elif request.POST.get("request_link"):
+        elif "request_link" in request.POST:
             context.update({
-                "Link": "somelink"
+                "Link": fileobject.file.url
             })
             
         return render(request, "index.html", context)

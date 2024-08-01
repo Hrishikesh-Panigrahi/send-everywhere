@@ -11,13 +11,17 @@
     <div class="w-full max-w-md">
         <div class="bg-white p-6 rounded-lg shadow-md mb-8 flex flex-col items-center justify-center h-48">
             {% if Link %}
-            <div class="flex space-x-2">
-                <!-- The text field -->
-                <input type="text" value="{{ link }}" id="Link">
-
-                <!-- The button used to copy the text -->
-                <button onclick="copyToClipboard()">Copy text</button>
-
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="request_code">Your
+                    Link</label>
+                    <div class="flex items-center justify-between mt-3">
+                <input type="text" name="request_code" value="{{ Link }}" id="Link"
+                    class="shadow appearance-none border rounded w-70% py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+               
+                    <button onclick="copyToClipboard()" style="margin-left: 10px;"
+                        class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Copy
+                        text</button>
+                </div>
             </div>
             {% elif request_code %}
             <div class="flex space-x-2">
@@ -46,12 +50,12 @@
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Get Code
                         </button>
-                        
-                            <button type="submit" name="request_link"
-                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                Get Link
-                            </button>
-                        
+
+                        <button type="submit" name="request_link"
+                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                            Get Link
+                        </button>
+
                         <a href="/download"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Email
