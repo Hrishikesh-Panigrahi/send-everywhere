@@ -95,3 +95,5 @@ venv
 /__pycache__
 /migrations
 ./migrations
+
+staticfiles

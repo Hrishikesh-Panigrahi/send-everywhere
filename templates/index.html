@@ -3,7 +3,7 @@
 {% block homepage %}
 <!-- Welcome Text -->
 <div class="margin-top container mx-auto text-center" style="margin-top: 100px;">
-    <h1 class="text-4xl font-bold text-gray-800">Welcome to My Website!</h1>
+    <h1 class="text-4xl font-bold text-gray-800">Welcome to Send Everywhere!</h1>
     <p class="text-lg text-gray-600 mt-2">Please upload your file or enter your code below.</p>
 </div>
 
@@ -14,10 +14,10 @@
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="request_code">Your
                     Link</label>
-                    <div class="flex items-center justify-between mt-3">
-                <input type="text" name="request_code" value="{{ Link }}" id="Link"
-                    class="shadow appearance-none border rounded w-70% py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-               
+                <div class="flex items-center justify-between mt-3">
+                    <input type="text" name="request_code" value="{{ Link }}" id="Link"
+                        class="shadow appearance-none border rounded w-70% py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+
                     <button onclick="copyToClipboard()" style="margin-left: 10px;"
                         class=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Copy
                         text</button>
@@ -50,7 +50,7 @@
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Get Code
                         </button>
-
+                        {% if user.is_authenticated %}
                         <button type="submit" name="request_link"
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Get Link
@@ -60,6 +60,17 @@
                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                             Email
                         </a>
+                        {% else %}
+                        <button disabled
+                            class="bg-gray-300 cursor-not-allowed opacity-70 text-gray-600 font-bold py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-gray-500">
+                            Get Link
+                        </button>
+
+                        <button disabled
+                            class="bg-gray-300 cursor-not-allowed opacity-70 text-gray-600 font-bold py-2 px-4 rounded focus:outline-none focus:focus:ring-2 focus:ring-gray-500">
+                            Email
+                        </button>
+                        {% endif %}
                     </div>
                 </div>
             </form>

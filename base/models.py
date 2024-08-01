@@ -15,7 +15,7 @@ class FileManager(models.Manager):
 class File(models.Model):
     uuid = models.UUIDField()
     file = models.FileField(upload_to='files')
-    name = models.CharField(max_length=45)
+    name = models.CharField(max_length=250)
     path = models.CharField(max_length=100, null=True)
     request_code = models.CharField(max_length=6, null=True, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)

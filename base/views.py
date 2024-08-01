@@ -5,7 +5,7 @@ from sendEverywhere import settings
 from .models import File
 from django.http import FileResponse
 from . import task
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, get_user, login, logout
 from django.contrib.auth.models import User
 
 def create_folder(folder_path):
@@ -22,7 +22,13 @@ def download(request_code):
 
 
 def index(request):
+    context = {}
+    context.update({
+        "user": request.user
+    })
+        
     if request.method == "POST" and request.FILES["file"]:
+
         random_uuid = uuid.uuid4()
         file = request.FILES["file"]
 
@@ -45,13 +51,16 @@ def index(request):
                 f.write(chunk)
         path = os.path.join(settings.MEDIA_ROOT, "file/", filename)
 
-        fileobject = File(uuid=random_uuid, file=file,
-                          name=file_name, path=path)
-        fileobject.save()
-        context = {}
-
-        print("request_code" in request.POST)
-
+        try:
+            fileobject = File(uuid=random_uuid, file=file,
+                            name=file_name, path=path)
+            fileobject.save()
+        except:
+            context.update({
+                "error": "Couldnt upload file"
+            })
+            return render(request, "index.html", context)
+        
         if "request_code" in request.POST:
             context.update({
                 "request_code": fileobject.request_code
@@ -96,16 +105,21 @@ def services(request):
 def contact(request):
     return render(request, "contact.html")
 
-def login(request):
+def login_user(request):
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
-        user = authenticate(username=username, password=password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
+            login(request, user)
             return redirect("index")
         else:
             return redirect("register")
     return render(request, "login.html")
+
+def logout_user(request):
+    logout(request)
+    return redirect('index')
 
 def register(request):
     if request.method == "POST":
