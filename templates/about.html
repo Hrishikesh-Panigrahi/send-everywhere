@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block homepage %}
-<div class="mt-9 flex flex-col md:flex-row items-center justify-between p-6 md:p-12 bg-white" style="height: 95vh;">
+<div class="mt-9 flex flex-col md:flex-row items-center justify-between p-6 md:p-12 bg-white dark:bg-gray-900" style="height: 95vh;">
     <div class="max-w-lg md:mb-0 md:ml-32">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6">Share files quickly</h2>
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">Share files quickly</h2>
         <div class="mb-6">
             <div class="flex items-center mb-2">
                 <div class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center mr-4">01
                 </div>
                 <h3 class="text-xl font-semibold text-blue-600">Effortless File Sharing </h3>
             </div>
-            <p class="text-gray-600">I’ve designed a streamlined platform where users can upload files and generate
+            <p class="text-gray-600 dark:text-gray-400">I’ve designed a streamlined platform where users can upload files and generate
                 unique codes for sharing. Recipients simply enter the code to access the file, making it easy to
                 share important documents quickly and securely.
             </p>
@@ -21,7 +21,7 @@
                 </div>
                 <h3 class="text-xl font-semibold text-blue-600">Secure and Private</h3>
             </div>
-            <p class="text-gray-600">Security is a top priority. Your files are protected with robust encryption
+            <p class="text-gray-600 dark:text-gray-400">Security is a top priority. Your files are protected with robust encryption
                 methods, and each sharing code is unique to ensure that only intended recipients can access the
                 files. Additionally, users can opt to send files directly via email for added convenience.
             </p>
@@ -32,14 +32,17 @@
                 </div>
                 <h3 class="text-xl font-semibold text-blue-600">Dedicated to User Experience</h3>
             </div>
-            <p class="text-gray-600">I am committed to providing a user-friendly experience. The platform’s simple
+            <p class="text-gray-600 dark:text-gray-400">I am committed to providing a user-friendly experience. The platform’s simple
                 interface allows for quick uploads, easy code generation, and seamless file access. Your feedback
                 helps me continually improve and refine the service to better meet your needs.
             </p>
         </div>
     </div>
     <div class="max-w-lg mt-8 md:mt-0 md:mr-12">
-        <img src="https://i.postimg.cc/htFZhyVh/aboutme-section.png" alt="Website Template on Laptop" class="w-full">
+        <!-- for light mode -->
+        <img src="https://i.postimg.cc/htFZhyVh/aboutme-section.png" alt="Website Template on Laptop" class="w-full dark:hidden">
+        <!-- for dark mode -->
+        <img src="https://i.postimg.cc/vHpg2sxG/darkmode-about-me.png" alt="Website Template on Laptop" class="w-full hidden dark:block">
     </div>
 </div>
 

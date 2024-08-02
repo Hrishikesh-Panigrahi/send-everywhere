@@ -95,8 +95,8 @@ The project contains a single Django app named `base`. The main URL pattern (`""
 ## Technologies Used
 
 - **Django**: Web framework for rapid development.
-- **Python**: Programming language used for backend logic.
-- **HTML/CSS**: Frontend styling and structure.
+- **HTML**: For Frontend.
+- **Tailwind**: For Styling.
 
 ---
 

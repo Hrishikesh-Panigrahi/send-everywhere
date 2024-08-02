@@ -8,6 +8,7 @@ from . import task
 from django.contrib.auth import authenticate, get_user, login, logout
 from django.contrib.auth.models import User
 
+
 def create_folder(folder_path):
     """Creates a folder if it doesn't exist."""
     if not os.path.exists(folder_path):
@@ -24,9 +25,10 @@ def download(request_code):
 def index(request):
     context = {}
     context.update({
+        "active_nav": "home",
         "user": request.user
     })
-        
+
     if request.method == "POST" and request.FILES["file"]:
 
         random_uuid = uuid.uuid4()
@@ -53,14 +55,14 @@ def index(request):
 
         try:
             fileobject = File(uuid=random_uuid, file=file,
-                            name=file_name, path=path)
+                              name=file_name, path=path)
             fileobject.save()
         except:
             context.update({
                 "error": "Couldnt upload file"
             })
             return render(request, "index.html", context)
-        
+
         if "request_code" in request.POST:
             context.update({
                 "request_code": fileobject.request_code
@@ -68,9 +70,9 @@ def index(request):
 
         elif "request_link" in request.POST:
             context.update({
-                "Link": fileobject.file.url
+                "Link": "localhost:8000" + fileobject.file.url
             })
-            
+
         return render(request, "index.html", context)
         # task.removeFile.apply_async_on_commit()
 
@@ -95,15 +97,25 @@ def index(request):
 
 
 def about(request):
-    return render(request, "about.html")
+    context = {
+        'active_nav': 'about',
+    }
+    return render(request, "about.html", context)
 
 
 def services(request):
-    return render(request, "services.html")
+    context = {
+        'active_nav': 'services',
+    }
+    return render(request, "services.html", context)
 
 
 def contact(request):
-    return render(request, "contact.html")
+    context = {
+        'active_nav': 'contact',
+    }
+    return render(request, "contact.html", context)
+
 
 def login_user(request):
     if request.method == "POST":
@@ -117,9 +129,11 @@ def login_user(request):
             return redirect("register")
     return render(request, "login.html")
 
+
 def logout_user(request):
     logout(request)
     return redirect('index')
+
 
 def register(request):
     if request.method == "POST":
@@ -129,7 +143,8 @@ def register(request):
         # lastName = request.POST.get("lastName")
         email = request.POST.get("email")
 
-        user = User.objects.create_user(email=email, username=username, password=password, first_name = firstName)
+        user = User.objects.create_user(
+            email=email, username=username, password=password, first_name=firstName)
         user.save()
         return redirect("index")
     return render(request, "register.html")
