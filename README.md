@@ -8,6 +8,7 @@ Welcome to Send Everywhere, a Django project inspired by Send Anywhere. This pro
 - **Sharing Methods**: Send Everywhere offers three options for sharing: key sharing (default), getting a link, and email, which are available after users log in.
 - **User Authentication**: Users can access features of send everywhere after authenticating on the website.
 - **Simple Interface**: Designed for easy navigation and use.
+- **Dark Mode**: Added Dark Mode for better user experience.
 
 ## Setup Instructions
 
@@ -83,9 +84,9 @@ docker exec -it <container_name> sh
 2. **Downloading Files:**
 
 - Share the Files: After uploading, choose one of the following methods to share:
-    - Key Sharing (default): Share the provided key with the recipient.
-    - Get the Link: Generate a link to share with the recipient.
-    - Email: Send the file directly to the recipient's email.
+  - Key Sharing (default): Share the provided key with the recipient.
+  - Get the Link: Generate a link to share with the recipient.
+  - Email: Send the file directly to the recipient's email.
 - The recipient can use the provided key or link, or check their email to access and download the file(s).
 
 ## Project Structure
